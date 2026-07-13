@@ -5,7 +5,6 @@ class Solution {
                       List<Integer> output,
                       int index) {
 
-        // Base cases
         if (target == 0) {
             ans.add(new ArrayList<>(output));
             return;
@@ -15,19 +14,24 @@ class Solution {
             return;
         }
 
-        // ---------- Include ----------
+        // Pruning
+        if (arr[index] > target) {
+            return;
+        }
+
+        // Include
         output.add(arr[index]);
         solve(arr, target - arr[index], ans, output, index + 1);
 
-        // ---------- Backtrack ----------
+        // Backtrack
         output.remove(output.size() - 1);
 
-        // ---------- Skip duplicates ----------
+        // Skip duplicates
         while (index + 1 < arr.length && arr[index] == arr[index + 1]) {
             index++;
         }
 
-        // ---------- Exclude ----------
+        // Exclude
         solve(arr, target, ans, output, index + 1);
     }
 

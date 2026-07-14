@@ -2,14 +2,14 @@ class Solution {
     public boolean issafe(char[][] board , int row , int col , int n ){
 
         // horizontaly 
-        for(int i = 0 ; i<n ; i++){
-            if(board[row][i]=='Q'){
-                return false;
-            }
-        }
+        // for(int i = 0 ; i<n ; i++){
+        //     if(board[row][i]=='Q'){
+        //         return false;
+        //     }
+        // }
 
         //vertically 
-        for(int i = 0 ; i<n ; i++){
+        for(int i = 0 ; i<row ; i++){
             if(board[i][col]=='Q'){
                 return false;
             }

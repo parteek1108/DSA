@@ -2,15 +2,16 @@ class Solution {
 
     public int uniquePaths(int m, int n) {
 
-        int[][] dp = new int[m][n];
-
-        dp[0][0] = 1;
+        int[] prev = new int[n];
 
         for (int i = 0; i < m; i++) {
+
+            int[] curr = new int[n];
 
             for (int j = 0; j < n; j++) {
 
                 if (i == 0 && j == 0) {
+                    curr[j] = 1;
                     continue;
                 }
 
@@ -18,17 +19,19 @@ class Solution {
                 int left = 0;
 
                 if (i > 0) {
-                    up = dp[i - 1][j];
+                    up = prev[j];
                 }
 
                 if (j > 0) {
-                    left = dp[i][j - 1];
+                    left = curr[j - 1];
                 }
 
-                dp[i][j] = up + left;
+                curr[j] = up + left;
             }
+
+            prev = curr;
         }
 
-        return dp[m - 1][n - 1];
+        return prev[n - 1];
     }
 }

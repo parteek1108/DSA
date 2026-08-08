@@ -1,26 +1,38 @@
 class Solution {
-    public int solve(int[] arr, int index, int buy,int cap,int[][][] dp) {
-        if (index == arr.length || cap ==2) {
-            return 0;
-        }
-        int profit = 0;
-        if (dp[index][buy][cap] != -1) {
-            return dp[index][buy][cap];
-        }
-        if (buy == 1 && cap<=2) {
-            profit = Math.max((-arr[index] + solve(arr, index + 1, 0,cap,dp)), solve(arr, index + 1, 1, cap,dp));
-        } else {
-            profit = Math.max(arr[index] + solve(arr, index + 1, 1, cap+1,dp), solve(arr, index + 1, 0, cap,dp));
-        }
-        return dp[index][buy][cap] =  profit;
-    }
     public int maxProfit(int[] arr) {
-        int[][][] dp = new int[arr.length][2][3];
-        for(int i =0;i<arr.length;i++){
-            for(int j =0;j<2;j++){
-                Arrays.fill(dp[i][j] , -1);
+
+        int n = arr.length;
+
+        int[][] ahead = new int[2][3];
+        int[][] curr = new int[2][3];
+
+        for (int index = n - 1; index >= 0; index--) {
+
+            for (int buy = 0; buy <= 1; buy++) {
+
+                for (int cap = 0; cap < 2; cap++) {
+
+                    if (buy == 1) {
+
+                        int take = -arr[index] + ahead[0][cap];
+                        int notTake = ahead[1][cap];
+
+                        curr[buy][cap] = Math.max(take, notTake);
+
+                    } else {
+
+                        int sell = arr[index] + ahead[1][cap + 1];
+                        int notSell = ahead[0][cap];
+
+                        curr[buy][cap] = Math.max(sell, notSell);
+                    }
+                }
             }
+
+            ahead = curr;
+            curr = new int[2][3];
         }
-        return solve(arr,0,1,0,dp);
+
+        return ahead[1][0];
     }
 }

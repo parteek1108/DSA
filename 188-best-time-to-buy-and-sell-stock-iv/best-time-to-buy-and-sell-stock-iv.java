@@ -15,21 +15,25 @@ class Solution {
     public int maxProfit(int k, int[] arr) {
         int n = arr.length;
         //return solve(k,arr,0,1);
-        int[][][] dp = new int[n+1][2][k+1];
-        dp[n][0][0] = 0;
-        dp[n][1][0] = 0;
+        //int[][][] dp = new int[n+1][2][k+1];
+        int[][] ahead = new int[2][k+1];
+        int[][] curr = new int[2][k+1];
+        // dp[n][0][0] = 0;
+        // dp[n][1][0] = 0;
         for(int index = n-1;index>=0;index--){
             for(int buy=0 ; buy<=1;buy++){
                 for(int cap = 1;cap<=k;cap++){
                     if(buy==1){
-                        dp[index][buy][cap] = Math.max(-arr[index]+dp[index+1][0][cap],dp[index+1][1][cap]);
+                        curr[buy][cap] = Math.max(-arr[index]+ahead[0][cap],ahead[1][cap]);
                     }
                     else{
-                        dp[index][buy][cap] = Math.max(arr[index]+dp[index+1][1][cap-1],dp[index+1][0][cap]);
+                        curr[buy][cap] = Math.max(arr[index]+ahead[1][cap-1],ahead[0][cap]);
                     }
                 }
             }
+            ahead = curr;
+            curr = new int[2][k + 1];
         }
-        return dp[0][1][k];
+        return ahead[1][k];
     }
 }

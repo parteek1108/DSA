@@ -1,41 +1,22 @@
 class Solution {
-    public int solve(int[] arr , int index , int prev ,int[][] dp){
-        if(index==arr.length){
-            return 0;
-        }
-        if(dp[index][prev+1] != -1){
-            return dp[index][prev+1];
-        }
-        int take =0;
-        if(prev==-1 || arr[index]>arr[prev]){
-             take = 1+solve(arr,index+1,index,dp);
-        }
-        int nontake = solve(arr,index+1,prev,dp);
-        return dp[index][prev+1] = Math.max(take,nontake);
-    }
     public int lengthOfLIS(int[] arr) {
         int n = arr.length;
-        //int[][] dp = new int[n+1][n+1];
-        // for(int i=0;i<arr.length;i++){
-        //     Arrays.fill(dp[i] , -1);
-        // }
-        // return solve(arr,0,-1,dp);
-        int[] curr = new int[n+1];
-        int[] next = new int[n+1];
-        for(int index = n-1;index>=0;index--){
-            for(int prev = index-1;prev>=-1;prev--){
-               int take =0;
-                if(prev==-1 || arr[index]>arr[prev]){
-                    take  = 1+next[index+1];
+        int dp[] = new int[n];
+        Arrays.fill(dp,1);
+        for(int i =0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(arr[j]<arr[i]){
+                    dp[i] = Math.max(dp[i],dp[j]+1);
                 }
-                
-                   int nontake= 0+next[prev+1];
-
-                curr[prev+1] = Math.max(take,nontake);
             }
-            next = curr.clone();
-            curr = new int[n + 1];
         }
-        return next[0];
+        int max =0;
+        for(int i=0;i<dp.length;i++){
+            if(dp[i]>max){
+                max = dp[i];
+            }
+        }
+        return max;
     }
+
 }

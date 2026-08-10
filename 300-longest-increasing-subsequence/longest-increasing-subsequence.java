@@ -15,23 +15,27 @@ class Solution {
     }
     public int lengthOfLIS(int[] arr) {
         int n = arr.length;
-        int[][] dp = new int[n+1][n+1];
+        //int[][] dp = new int[n+1][n+1];
         // for(int i=0;i<arr.length;i++){
         //     Arrays.fill(dp[i] , -1);
         // }
         // return solve(arr,0,-1,dp);
+        int[] curr = new int[n+1];
+        int[] next = new int[n+1];
         for(int index = n-1;index>=0;index--){
             for(int prev = index-1;prev>=-1;prev--){
                int take =0;
                 if(prev==-1 || arr[index]>arr[prev]){
-                    take  = 1+dp[index+1][index+1];
+                    take  = 1+next[index+1];
                 }
                 
-                   int nontake= 0+dp[index+1][prev+1];
+                   int nontake= 0+next[prev+1];
 
-                dp[index][prev+1] = Math.max(take,nontake);
+                curr[prev+1] = Math.max(take,nontake);
             }
+            next = curr.clone();
+            curr = new int[n + 1];
         }
-        return dp[0][0];
+        return next[0];
     }
 }

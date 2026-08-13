@@ -1,5 +1,4 @@
 class Solution {
-
     public List<Integer> largestDivisibleSubset(int[] arr) {
 
         int n = arr.length;
@@ -20,11 +19,13 @@ class Solution {
 
             for (int j = 0; j < i; j++) {
 
-                if (arr[i] % arr[j] == 0 &&
-                    dp[j] + 1 > dp[i]) {
+                if (arr[i] % arr[j] == 0) {
 
-                    dp[i] = dp[j] + 1;
-                    parent[i] = j;
+                    if (dp[j] + 1 > dp[i]) {
+
+                        dp[i] = dp[j] + 1;
+                        parent[i] = j;
+                    }
                 }
             }
 
@@ -34,6 +35,7 @@ class Solution {
             }
         }
 
+        // Backtracking
         ArrayList<Integer> ans = new ArrayList<>();
 
         while (parent[lastIndex] != lastIndex) {
